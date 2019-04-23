@@ -1,0 +1,102 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package controladores;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.StringTokenizer;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author glori
+ */
+public class logica 
+{
+    public boolean leerTxt(String usuario, String contraseña)
+    {
+       boolean valid=false;
+        try
+            {
+                //direccion del archivo TXT en el que se encuentran los usuarios y sus respectivas contraseñas
+                String direccion="C:\\Users\\glori\\OneDrive\\Escritorio\\USUARIOS.txt";
+                BufferedReader bf = new BufferedReader(new FileReader(direccion));
+                String bfRead;
+                //si en cualquiera de las lineas encuentra lo que ingresamos como usuario
+                while((bfRead = bf.readLine())!= null)
+                {
+                    line =bfRead; //guardamos el texto del archivo
+                    texto = line;
+                    
+                   //lee cada linea del archivo
+                    StringTokenizer tokens = new StringTokenizer (line);
+                    while (tokens.hasMoreTokens())
+                    {
+                    String nextToken = tokens.nextToken();
+                    if(nextToken.contains(usuario))
+                    {
+                        //agarra lo que se encuentra despues de la ","
+                        int start = (nextToken.lastIndexOf(",")+1); 
+                        //lo guarda como la contraseña
+                        String contraseñaa=nextToken.substring(start);
+                        x=contraseñaa;
+                        //igualamos la contraseña a nuestra variable original de contraseña(x) declarada abajo
+                        if (contraseña.equals(x))
+                        {
+                            //mostramos el mensaje
+                            MensajeEncontrado();
+                            valid=true;
+                        }
+                        else if(!contraseña.equals(x))
+                        {
+                            ContrasenaInconrrecta();
+                        }
+                        
+                    }
+                    }
+                }
+            }
+            catch(Exception e)
+            {
+                System.out.println("NO SE ENCONTRO EL ARCHIVO");
+            } 
+        return valid;
+    }
+    
+    
+    /**
+     * VENTANAS DE MENSAJES Y ERROR
+     */
+    
+    public static void MensajeEncontrado()
+    {
+        //En la siguiente línea está la magia (es lo que muestra el mensaje).
+        JOptionPane.showMessageDialog(null, "¡USUARIO ENCONTRADO!");
+    }
+    public static void MensajeNoEncontrado()
+    {
+        //En la siguiente línea está la magia (es lo que muestra el mensaje).
+        JOptionPane.showMessageDialog(null, "¡USUARIO NO ENCONTRADO!");
+    }
+    public static void ContrasenaInconrrecta()
+    {
+        //En la siguiente línea está la magia (es lo que muestra el mensaje).
+        JOptionPane.showMessageDialog(null, "¡CONTRASEÑA INCORRECTA!");
+    }
+    
+    /**
+     * VARIABLES
+     */
+    String texto ="";
+    String line="";
+    String x="";
+    String ruta ="C:\\Users\\glori\\OneDrive\\Escritorio\\USUARIOS.txt";
+    
+}
